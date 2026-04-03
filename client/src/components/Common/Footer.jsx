@@ -172,7 +172,7 @@ const Footer = () => {
             })}
           </div>
 
-          <div className="text-center">Made by Raju Kumar Singh © 2025 Studynotion</div>
+          <div className="text-center">Made by Naitik Mehta © {new Date().getFullYear()} Studynotion</div>
         </div>
       </div>
     </div>

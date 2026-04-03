@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
-  FaArrowRight,
-  FaCode,
-  FaLaptopCode,
-  FaProjectDiagram,
-  FaUsers,
+  FaChalkboardTeacher,
+  FaGlobe,
+  FaTools,
 } from "react-icons/fa";
+import { PiClockCountdownFill } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 
 import { HighlightText } from "../components/core/HomePage/HighlightText";
@@ -17,11 +16,12 @@ import InstructorSection from "../components/core/HomePage/InstructorSection";
 import ReviewSlider from "../components/Common/ReviewSlider";
 import CourseSlider from "../components/core/Catalog/CourseSlider";
 import { getCatalogPageData } from "../services/operations/pageAndComponentData";
+import { apiConnector } from "../services/apiConnector";
+import { categories } from "../services/apis";
 
 const Home = () => {
   const [catalogPageData, setCatalogPageData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const categoryID = "6868be4b209b24f4e642d20d";
 
   const dispatch = useDispatch();
 
@@ -29,8 +29,13 @@ const Home = () => {
     const fetchCatalogPageData = async () => {
       setLoading(true);
       try {
-        const result = await getCatalogPageData(categoryID);
-        setCatalogPageData(result);
+        const res = await apiConnector("GET", categories.CATALOGPAGEDATA_API);
+        const categoryId = res?.data?.data?.[0]?._id;
+        
+        if (categoryId) {
+          const result = await getCatalogPageData(categoryId);
+          setCatalogPageData(result);
+        }
       } catch (error) {
         console.error("Failed to fetch catalog data:", error);
       } finally {
@@ -38,62 +43,61 @@ const Home = () => {
       }
     };
 
-    if (categoryID) fetchCatalogPageData();
-  }, [categoryID]);
+    fetchCatalogPageData();
+  }, []);
 
   return (
     <div className="bg-richblack-900 text-white pt-16">
       {/* Hero Section */}
       <section className="relative flex flex-col items-center justify-center text-center py-12 px-4 sm:px-6 lg:px-10">
-        <NavLink to="/signup">
+        {/* <NavLink to="/signup">
           <div className="group mb-4 p-1 rounded-full bg-richblack-700 hover:scale-95 transition-all duration-200 w-fit shadow-md">
             <div className="flex items-center gap-2 rounded-full px-6 py-2 bg-richblack-800 group-hover:bg-richblack-900 font-medium text-sm sm:text-base transition">
               Become an Instructor
               <FaArrowRight size={14} />
             </div>
           </div>
-        </NavLink>
+        </NavLink> */}
 
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-snug max-w-3xl">
-          Empower Your Future with{" "}
-          <HighlightText text="Practical Coding Skills" />
+          Learn Skills That{" "}
+          <HighlightText text="Shape Your Future" />
         </h1>
 
         <p className="mt-2 sm:mt-3 text-richblack-300 text-sm sm:text-base max-w-xl">
-          Build real-world projects that prepare you for jobs, freelancing, and
-          launching products.
+          Learn in-demand skills from experts and unlock new opportunities.
         </p>
 
         <div className="flex gap-3 sm:gap-4 mt-4 flex-wrap justify-center">
           <CTAButton active linkto="/signup">
             Get Started
           </CTAButton>
-          <CTAButton active={false} linkto="/login">
+          {/* <CTAButton active={false} linkto="/login">
             Book a Demo
-          </CTAButton>
+          </CTAButton> */}
         </div>
 
         {/* Features Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-8 w-full max-w-4xl">
           {[
             {
-              icon: <FaCode size={22} />,
-              text: "Full-Stack Projects",
+              icon: <FaChalkboardTeacher size={22} />,
+              text: "Expert-Led Courses",
               color: "text-yellow-100",
             },
             {
-              icon: <FaLaptopCode size={22} />,
-              text: "Hands-On Learning",
+              icon: <PiClockCountdownFill size={22} />,
+              text: "Learn at Your Own Pace",
               color: "text-pink-200",
             },
             {
-              icon: <FaProjectDiagram size={22} />,
-              text: "System Design",
+              icon: <FaTools size={22} />,
+              text: "Build Practical Skills",
               color: "text-blue-200",
             },
             {
-              icon: <FaUsers size={22} />,
-              text: "Peer Reviews",
+              icon: <FaGlobe size={22} />,
+              text: "Access Anytime, Anywhere",
               color: "text-green-200",
             },
           ].map((item, index) => (

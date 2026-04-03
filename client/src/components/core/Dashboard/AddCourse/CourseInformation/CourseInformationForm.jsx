@@ -206,8 +206,14 @@ const CourseInformationForm = () => {
         <input
           id="coursePrice"
           type="number"
+          min="0"
+          defaultValue={0}
           placeholder="Enter Course Price"
-          {...register("coursePrice", { required: true, valueAsNumber: true })}
+          {...register("coursePrice", { 
+            required: true, 
+            valueAsNumber: true,
+            min: { value: 0, message: "Price cannot be negative" }
+          })}
           className="w-full rounded-md bg-richblack-700 px-4 py-2 pl-10 text-richblack-5 focus:ring-2 focus:ring-yellow-400 shadow-sm"
         />
         <HiOutlineCurrencyRupee className="absolute left-3 top-[38px] text-richblack-300" />

@@ -268,7 +268,7 @@ const Instructor = () => {
       ) : (
         <div className="flex flex-col items-center justify-center h-[60vh] text-gray-400">
           <p className="mb-4 text-lg">You have not created any courses yet</p>
-          <Link to="/dashboard/addCourse"
+          <Link to="/dashboard/add-course"
             className="bg-yellow-400 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-500 transition">
             Create a Course
           </Link>

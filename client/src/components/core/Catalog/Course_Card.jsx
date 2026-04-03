@@ -47,7 +47,7 @@ const Course_Card = ({ course, Height }) => {
 
             {/* Price */}
             <p className="text-lg font-bold text-yellow-50">
-              ₹{course?.price}
+              {course?.price <= 0 ? "Free" : `₹${course?.price}`}
             </p>
           </div>
         </div>

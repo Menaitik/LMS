@@ -104,6 +104,14 @@ const CourseTable = ({ courses, setCourses }) => {
 
                   <button
                     disabled={loading}
+                    onClick={() => navigate(`/dashboard/manage-course/${course._id}`)}
+                    className="flex items-center gap-1 text-sm text-yellow-400 hover:text-yellow-300 transition-all duration-200 underline disabled:opacity-50"
+                  >
+                    Manage
+                  </button>
+
+                  <button
+                    disabled={loading}
                     onClick={() => {
                       setConfirmationModal({
                         text1: "Do you want to delete this course?",

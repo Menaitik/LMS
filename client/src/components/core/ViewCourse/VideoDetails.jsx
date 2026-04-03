@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactPlayer from "react-player";
+import { FiDownload } from "react-icons/fi";
 import {
   MediaController,
   MediaControlBar,
@@ -18,6 +19,11 @@ import {
 
 import { markLectureAsComplete } from "../../../services/operations/courseDetailsAPI";
 import { updateCompletedLectures } from "../../../slices/viewCourseSlice";
+import Discussion from "./Discussion";
+import AIAssistant from "./AIAssistant";
+import CourseQuizList from "./CourseQuizList";
+import CourseAnnouncements from "./CourseAnnouncements";
+import CourseAssignments from "./CourseAssignments";
 
 const CourseDetails = () => {
   const { courseId, sectionId, subSectionId } = useParams();
@@ -224,6 +230,48 @@ const CourseDetails = () => {
 
           <div className="h-1 w-20 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-500 rounded-full"></div>
         </div>
+
+        {/* Resources */}
+        {videoData?.resources?.length > 0 ? (
+          <div className="bg-richblack-800 p-6 rounded-2xl shadow-2xl border border-richblack-600">
+            <h2 className="text-lg font-semibold text-richblack-5">Resources</h2>
+            <ul className="mt-3 space-y-2">
+              {videoData.resources.map((r) => (
+                <li key={r.fileUrl}>
+                  <a
+                    href={r.fileUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-2 text-yellow-400 hover:underline"
+                  >
+                    <FiDownload />
+                    {r.fileName}
+                    <span className="text-xs text-richblack-300">({r.fileType})</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <p className="text-richblack-300 text-sm">No additional resources available.</p>
+        )}
+
+        {/* AI Assistant */}
+        {subSectionId && <AIAssistant subSectionId={subSectionId} />}
+
+        {/* Course Quizzes */}
+        {courseId && <CourseQuizList courseId={courseId} />}
+
+        {/* Announcements */}
+        {courseId && <CourseAnnouncements courseId={courseId} />}
+
+        {/* Assignments */}
+        {courseId && <CourseAssignments courseId={courseId} />}
+
+        {/* Discussion / Q&A */}
+        {courseId && (
+          <Discussion courseId={courseId} subSectionId={subSectionId} />
+        )}
       </div>
     </div>
   );

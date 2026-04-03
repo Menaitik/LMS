@@ -11,6 +11,7 @@ const {
   getFullCourseDetails,
   deleteCourse,
   searchCourse,
+  suggestCourses,
   markLectureAsComplete,
 } = require("../controllers/Course");
 
@@ -75,6 +76,8 @@ router.post("/getFullCourseDetails", auth, getFullCourseDetails);
 router.delete("/deleteCourse", auth, deleteCourse);
 // Search Courses
 router.post("/searchCourse", searchCourse);
+// Autocomplete suggestions
+router.get("/suggest", suggestCourses);
 //mark lecture as complete
 router.post("/updateCourseProgress", auth, isStudent, markLectureAsComplete);
 

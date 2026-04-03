@@ -11,6 +11,7 @@ const {
 const mongoose = require("mongoose");
 const crypto = require("crypto");
 const CourseProgress = require("../models/CourseProgress");
+const PaymentRecord = require("../models/PaymentRecord");
  
 
 // initiate the razorpay order
@@ -56,6 +57,18 @@ exports.capturePayment = async (req, res) => {
     }
   }
 
+  if (totalAmount <= 0) {
+    await enrolledStudents(courses, userId, res);
+    if (!res.headersSent) {
+      return res.status(200).json({
+        success: true,
+        message: "Student Enrolled Successfully",
+      });
+    } else {
+      return;
+    }
+  }
+
   const options = {
     amount: totalAmount * 100,
     currency: "INR",
@@ -64,12 +77,19 @@ exports.capturePayment = async (req, res) => {
 
   try {
     const paymentResponse = await instance.orders.create(options);
+    // Record pending payment
+    await PaymentRecord.create({
+      student: userId,
+      courses,
+      orderId: paymentResponse.id,
+      amount: totalAmount,
+      status: "pending",
+    });
     res.json({
       success: true,
       message: paymentResponse,
     });
   } catch (error) {
-   // console.log(error);
     return res.status(500).json({
       success: false,
       message: "Could not Initiate Order",
@@ -114,18 +134,16 @@ exports.verifyPayment = async (req, res) => {
     .digest("hex");
 
   if (expectedSignature === razorpay_signature) {
-    //enroll karwa do student ko
+    // Update payment record to success
+    await PaymentRecord.findOneAndUpdate(
+      { orderId: razorpay_order_id },
+      { paymentId: razorpay_payment_id, status: "success" }
+    );
     await enrolledStudents(courses, userId, res);
-    //  return res
-    return res.status(200).json({
-      success: true,
-      message: "Payment Verified",
-    });
+    return res.status(200).json({ success: true, message: "Payment Verified" });
   }
-  return res.status(400).json({
-    success: false,
-    message: "Payment Failed",
-  });
+  await PaymentRecord.findOneAndUpdate({ orderId: razorpay_order_id }, { status: "failed" });
+  return res.status(400).json({ success: false, message: "Payment Failed" });
 };
 
 const enrolledStudents = async (courses, userId, res) => {

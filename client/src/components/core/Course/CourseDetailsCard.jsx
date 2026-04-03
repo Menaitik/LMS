@@ -12,6 +12,7 @@ import { addToCart } from "../../../slices/cartSlice";
 const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) => {
   const { user } = useSelector((state) => state.profile);
   const { token } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -25,7 +26,6 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
 
     if (token) {
       dispatch(addToCart(course));
-      toast.success("Course added to cart");
       return;
     }
 
@@ -54,7 +54,9 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
       />
 
       {/* Price */}
-      <div className="text-yellow-400 font-bold text-2xl">Rs. {price}</div>
+      <div className="text-yellow-400 font-bold text-2xl">
+        {price <= 0 ? "Free" : `Rs. ${price}`}
+      </div>
 
       {/* Buttons */}
       <div className="flex flex-col gap-3">
@@ -68,15 +70,23 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
         >
           {user && studentsEnrolled?.includes(user?._id)
             ? "Go to Course"
+            : price <= 0
+            ? "Enroll"
             : "Buy Now"}
         </button>
 
-        {!studentsEnrolled?.includes(user?._id) && (
+        {(!studentsEnrolled?.includes(user?._id) && price > 0) && (
           <button
-            onClick={handleAddToCart}
+            onClick={
+              cart?.some((item) => item._id === course?._id)
+                ? () => navigate("/dashboard/cart")
+                : handleAddToCart
+            }
             className="bg-gray-700 text-yellow-400 font-semibold py-2 rounded-lg hover:bg-gray-600 transition"
           >
-            Add to Cart
+            {cart?.some((item) => item._id === course?._id)
+              ? "Go to Cart"
+              : "Add to Cart"}
           </button>
         )}
       </div>

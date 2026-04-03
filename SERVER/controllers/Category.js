@@ -86,10 +86,7 @@ exports.CategoryPageDetails = async (req, res) => {
 
     if (!selectedCourses || selectedCourses.length === 0) {
       // console.log("No course found for the selected category.");
-      return res.status(404).json({
-        success: false,
-        message: "No courses found for the selected category",
-      });
+      // Do not return 404, just let it pass so the page handles the 0 courses gracefully
     }
 
     const otherCategories = await Category.find({

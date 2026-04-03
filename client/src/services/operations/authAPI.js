@@ -113,7 +113,15 @@ export function login(email, password, navigate) {
       dispatch(setUser({ ...response.data.user, image: userImage }));
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("token", JSON.stringify(token));
-      navigate("/dashboard/my-profile");
+
+      // Role-based redirect
+      if (user.accountType === "Instructor") {
+        navigate("/dashboard/instructor");
+      } else if (user.accountType === "Student") {
+        navigate("/dashboard/enrolled-courses");
+      } else {
+        navigate("/dashboard/my-profile");
+      }
     } catch (error) {
       //   dispatch(setProgress(100))
       console.log("LOGIN API ERROR............", error);

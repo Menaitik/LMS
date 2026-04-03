@@ -12,6 +12,7 @@ import {
 import { setCourse } from "../../../../../slices/courseSlice";
 import IconBtn from "../../../../common/IconBtn";
 import Upload from "../Upload";
+import ResourceUpload from "./ResourceUpload";
 
 export default function SubSectionModal({
   modalData,
@@ -30,6 +31,8 @@ export default function SubSectionModal({
 
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [pendingResourceFiles, setPendingResourceFiles] = useState([]);
+  const [removedResourceUrls, setRemovedResourceUrls] = useState([]);
   const { token } = useSelector((state) => state.auth);
   const { course } = useSelector((state) => state.course);
 
@@ -46,7 +49,9 @@ export default function SubSectionModal({
     return (
       currentValues.lectureTitle !== modalData.title ||
       currentValues.lectureDesc !== modalData.description ||
-      currentValues.lectureVideo !== modalData.videoUrl
+      currentValues.lectureVideo !== modalData.videoUrl ||
+      pendingResourceFiles.length > 0 ||
+      removedResourceUrls.length > 0
     );
   };
 
@@ -63,6 +68,10 @@ export default function SubSectionModal({
     }
     if (currentValues.lectureVideo !== modalData.videoUrl) {
       formData.append("video", currentValues.lectureVideo);
+    }
+    pendingResourceFiles.forEach((file) => formData.append("resources", file));
+    if (removedResourceUrls.length > 0) {
+      formData.append("removedResourceUrls", JSON.stringify(removedResourceUrls));
     }
     setLoading(true);
     const result = await updateSubSection(formData, token);
@@ -94,6 +103,7 @@ export default function SubSectionModal({
       formData.append("title", data.lectureTitle);
       formData.append("description", data.lectureDesc);
       formData.append("video", data.lectureVideo);
+      pendingResourceFiles.forEach((file) => formData.append("resources", file));
       setLoading(true);
 
       const result = await createSubSection(formData, token);
@@ -199,6 +209,15 @@ export default function SubSectionModal({
               </span>
             )}
           </div>
+
+          <ResourceUpload
+            existingResources={modalData?.resources ?? []}
+            viewOnly={view}
+            onChange={(newFiles, removedUrls) => {
+              setPendingResourceFiles(newFiles);
+              setRemovedResourceUrls(removedUrls);
+            }}
+          />
 
           {!view && (
             <div className="flex justify-end">

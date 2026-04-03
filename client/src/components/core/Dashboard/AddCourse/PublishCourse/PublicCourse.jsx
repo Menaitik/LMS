@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import IconBtn from "../../../../common/IconBtn";
@@ -16,6 +15,12 @@ const PublicCourse = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (course?.status === COURSE_STATUS.PUBLISHED) {
+      setValue("public", true);
+    }
+  }, [course?.status, setValue]);
+
   const goBack = () => {
     dispatch(setStep(2));
   };
@@ -25,11 +30,13 @@ const PublicCourse = () => {
     navigate("/dashboard/my-courses");
   };
 
-  const handleCoursePublish = async() => {
+  const handleCoursePublish = async (data) => {
+    const isPublic = data.public === true;
+    const currentStatus = isPublic ? COURSE_STATUS.PUBLISHED : COURSE_STATUS.DRAFT;
+
     if (
-      (course?.status === COURSE_STATUS.PUBLISHED &&
-        getValues("public") === true) ||
-      (course.status === COURSE_STATUS.DRAFT && getValues("public") === false)
+      (course?.status === COURSE_STATUS.PUBLISHED && isPublic) ||
+      (course.status === COURSE_STATUS.DRAFT && !isPublic)
     ) {
       // no updation in form
       // no need to make api call
@@ -40,8 +47,7 @@ const PublicCourse = () => {
     // if form is updated
     const formData = new FormData();
     formData.append("courseId", course._id);
-    const courseStatus = getValues("public") ? COURSE_STATUS.PUBLISHED : COURSE_STATUS.DRAFT;
-    formData.append("status", courseStatus);
+    formData.append("status", currentStatus);
 
     setLoading(true);
     const result = await editCourseDetails(formData, token);
@@ -52,8 +58,8 @@ const PublicCourse = () => {
     setLoading(false);
   };
 
-  const onSubmit = () => {
-    handleCoursePublish();
+  const onSubmit = (data) => {
+    handleCoursePublish(data);
   };
 
   return (

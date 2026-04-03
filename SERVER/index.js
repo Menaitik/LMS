@@ -9,8 +9,16 @@ const userRoutes = require("./routes/User");
 const profileRoutes = require("./routes/Profile");
 const courseRoutes = require("./routes/Course");
 const paymentRoutes = require("./routes/Payment");
-// const categoryRoutes = require("./routes/Category");
 const contactUsRoute = require("./routes/ContactUs");
+const aiRoutes = require("./routes/AI");
+const quizRoutes = require("./routes/Quiz");
+const discussionRoutes = require("./routes/Discussion");
+const certificateRoutes = require("./routes/Certificate");
+const announcementRoutes = require("./routes/Announcement");
+const adminRoutes = require("./routes/Admin");
+const notificationRoutes = require("./routes/Notification");
+const assignmentRoutes = require("./routes/Assignment");
+const paymentHistoryRoutes = require("./routes/PaymentHistory");
 
 // Config
 const database = require("./config/database");
@@ -54,8 +62,16 @@ app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/course", courseRoutes);
 app.use("/api/v1/payment", paymentRoutes);
-// app.use("/api/v1/category", categoryRoutes);
-app.use("/api/v1/contact",contactUsRoute);
+app.use("/api/v1/contact", contactUsRoute);
+app.use("/api/v1/ai", aiRoutes);
+app.use("/api/v1/quiz", quizRoutes);
+app.use("/api/v1/discussion", discussionRoutes);
+app.use("/api/v1/certificate", certificateRoutes);
+app.use("/api/v1/announcement", announcementRoutes);
+app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/notification", notificationRoutes);
+app.use("/api/v1/assignment", assignmentRoutes);
+app.use("/api/v1/payment-history", paymentHistoryRoutes);
 // Default route
 app.get("/", (req, res) => {
   res.send({

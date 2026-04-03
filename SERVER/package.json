@@ -12,6 +12,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.7.0",
@@ -26,6 +27,7 @@
     "node-schedule": "^2.1.1",
     "nodemailer": "^7.0.4",
     "nodemon": "^3.1.10",
+    "openai": "^6.33.0",
     "otp-generator": "^4.0.1",
     "razorpay": "^2.9.6"
   }

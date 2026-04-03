@@ -15,7 +15,7 @@ const CourseSlider = ({ Courses }) => {
       {Courses?.length ? (
         <Swiper
           slidesPerView={1}
-          loop={true}
+          loop={Courses?.length >= 4}
           spaceBetween={20}
           modules={[Autoplay, FreeMode, Pagination, Navigation]}
           pagination={{ clickable: true }}

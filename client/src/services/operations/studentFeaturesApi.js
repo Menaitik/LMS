@@ -53,6 +53,15 @@ export async function buyCourse(token,courses, userDetails, navigate, dispatch) 
         throw new Error(orderResponse?.data?.message);
     }
 
+    if(orderResponse.data.success && orderResponse.data.message === "Student Enrolled Successfully") {
+        toast.success("Successfully Enrolled in Course");
+        navigate("/dashboard/enrolled-courses");
+        dispatch(setPaymentLoading(false));
+        dispatch(resetCart());
+        toast.dismiss(toastId);
+        return;
+    }
+
    // console.log("razorpay key", import.meta.env.VITE_APP_RAZORPAY_KEY);
  
     // options 

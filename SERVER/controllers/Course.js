@@ -426,30 +426,45 @@ exports.deleteCourse = async (req, res) => {
 exports.searchCourse = async (req, res) => {
   try {
     const { searchQuery } = req.body;
-    //   console.log("searchQuery : ", searchQuery)
     const courses = await Course.find({
+      status: "Published",
       $or: [
         { courseName: { $regex: searchQuery, $options: "i" } },
         { courseDescription: { $regex: searchQuery, $options: "i" } },
         { tag: { $regex: searchQuery, $options: "i" } },
       ],
     })
-      .populate({
-        path: "instructor",
-      })
-      .populate("category")
+      .populate("instructor", "firstName lastName image")
+      .populate("category", "name")
       .populate("ratingAndReviews")
       .exec();
 
-    return res.status(200).json({
-      success: true,
-      data: courses,
-    });
+    return res.status(200).json({ success: true, data: courses });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Autocomplete suggestions (GET, lightweight)
+exports.suggestCourses = async (req, res) => {
+  try {
+    const { q } = req.query;
+    if (!q || q.trim().length < 2) return res.status(200).json({ success: true, data: [] });
+
+    const courses = await Course.find({
+      status: "Published",
+      $or: [
+        { courseName: { $regex: q, $options: "i" } },
+        { tag: { $regex: q, $options: "i" } },
+      ],
+    })
+      .select("courseName thumbnail tag level")
+      .limit(6)
+      .lean();
+
+    return res.status(200).json({ success: true, data: courses });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 

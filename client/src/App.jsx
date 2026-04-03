@@ -3,7 +3,6 @@ import Home from "./pages/Home";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import NavBar from "./components/Common/NavBar";
-// import { setProgress } from "./slices/loadingBarSlice";
 import OpenRoute from "./components/core/Auth/OpenRoute";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -31,6 +30,18 @@ import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 import Instructor from "./components/core/Dashboard/InstructorDashboard/Instructor";
 import CreateCategory from "./components/core/Dashboard/AdminDadhboard/AddCategory/CreateCategory";
 import AllCategory from "./components/core/Dashboard/AdminDadhboard/AdminPanel/AllCategory";
+import UserManagement from "./components/core/Dashboard/AdminDadhboard/AdminPanel/UserManagement";
+import PlatformStats from "./components/core/Dashboard/AdminDadhboard/AdminPanel/PlatformStats";
+import LearningPath from "./pages/LearningPath";
+import Certificate from "./pages/Certificate";
+import VerifyCertificate from "./pages/VerifyCertificate";
+import TakeQuiz from "./pages/TakeQuiz";
+import ManageCourse from "./pages/ManageCourse";
+import MyCertificates from "./components/core/Dashboard/MyCertificates";
+import PaymentHistory from "./components/core/Dashboard/PaymentHistory";
+import AdminPayments from "./components/core/Dashboard/AdminDadhboard/AdminPanel/AdminPayments";
+import AdminCourses from "./components/core/Dashboard/AdminDadhboard/AdminPanel/AdminCourses";
+import Search from "./pages/Search";
 
 function App() {
   const { user } = useSelector((state) => state.profile);
@@ -76,6 +87,9 @@ function App() {
         />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="/verify-certificate/:certificateId" element={<VerifyCertificate />} />
+        <Route path="/quiz/:quizId" element={<PrivateRoute><TakeQuiz /></PrivateRoute>} />
+        <Route path="/search" element={<Search />} />
         <Route
           element={
             <PrivateRoute>
@@ -88,36 +102,34 @@ function App() {
           {user?.accountType === ACCOUNT_TYPE.STUDENT && (
             <>
               <Route path="/dashboard/cart" element={<Cart />} />
-              <Route
-                path="/dashboard/enrolled-courses"
-                element={<EnrolledCourses />}
-              />
+              <Route path="/dashboard/enrolled-courses" element={<EnrolledCourses />} />
+              <Route path="/dashboard/learning-path" element={<LearningPath />} />
+              <Route path="/dashboard/certificate/:courseId" element={<Certificate />} />
+              <Route path="/dashboard/my-certificates" element={<MyCertificates />} />
+              <Route path="/dashboard/payment-history" element={<PaymentHistory />} />
             </>
           )}
 
           {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
             <>
-              <Route
-                path="/dashboard/instructor"
-                element={<Instructor />}
-              />
+              <Route path="/dashboard/instructor" element={<Instructor />} />
               <Route path="/dashboard/add-course" element={<AddCourse />} />
               <Route path="/dashboard/my-courses" element={<MyCourses />} />
-              <Route
-                path="/dashboard/edit-course/:courseId"
-                element={<EditCourse />}
-              />
+              <Route path="/dashboard/edit-course/:courseId" element={<EditCourse />} />
+              <Route path="/dashboard/manage-course/:courseId" element={<ManageCourse />} />
             </>
           )}
 
-          {
-            user?.accountType === ACCOUNT_TYPE.ADMIN && (
-              <>
-                <Route path="/dashboard/create-category" element={<CreateCategory/>}/>
-                <Route path="/dashboard/admin-panel" element={<AllCategory/>}/>
-              </>
-            )
-          }
+          {user?.accountType === ACCOUNT_TYPE.ADMIN && (
+            <>
+              <Route path="/dashboard/create-category" element={<CreateCategory />} />
+              <Route path="/dashboard/admin-panel" element={<AllCategory />} />
+              <Route path="/dashboard/user-management" element={<UserManagement />} />
+              <Route path="/dashboard/platform-stats" element={<PlatformStats />} />
+              <Route path="/dashboard/admin-payments" element={<AdminPayments />} />
+              <Route path="/dashboard/admin-courses" element={<AdminCourses />} />
+            </>
+          )}
         </Route>
 
         <Route
