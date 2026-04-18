@@ -386,3 +386,60 @@ exports.verifyEmail = async (req, res) => {
     });
   }
 };
+
+// ===============================
+// Admin-only login
+// ===============================
+exports.adminLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: "Email and password are required." });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ success: false, message: "Invalid credentials." });
+    }
+
+    // Only allow Admin accounts
+    if (user.accountType !== "Admin") {
+      return res.status(403).json({ success: false, message: "Access denied. Not an admin account." });
+    }
+
+    if (!user.active) {
+      return res.status(403).json({ success: false, message: "Account is deactivated." });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ success: false, message: "Invalid credentials." });
+    }
+
+    const token = jwt.sign(
+      { id: user._id, email: user.email, accountType: user.accountType },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    user.token = token;
+    user.password = undefined;
+
+    const options = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+      maxAge: 24 * 60 * 60 * 1000,
+    };
+    res.cookie("token", token, options);
+
+    return res.status(200).json({
+      success: true,
+      message: "Admin login successful.",
+      token,
+      user,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Login failed.", error: error.message });
+  }
+};

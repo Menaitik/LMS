@@ -9,6 +9,7 @@ const {
   login,
   verifyEmail,
   changePassword,
+  adminLogin,
 } = require("../controllers/Auth");
 
 const {
@@ -23,6 +24,7 @@ router.post("/sendotp", sendOTP);
 router.post("/verify-email", verifyEmail); 
 router.post("/signup", signup);
 router.post("/login", login);
+router.post("/admin-login", adminLogin);
 router.put("/change-password", auth, changePassword);
  
 

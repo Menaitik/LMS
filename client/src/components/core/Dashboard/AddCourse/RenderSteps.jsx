@@ -54,16 +54,14 @@ const RenderSteps = () => {
           </div>
           <div className="relative mb-16 flex w-full select-none justify-between">
             {steps.map((item) => (
-              <>
-                <div
-                  key={item.id}
-                  className="flex md:min-w-[180px] flex-col items-start"
-                >
-                  <p className=" ml-3 md:ml-0 text-[10px] md:text-sm text-richblack-5">
-                    {item.title}
-                  </p>
-                </div>
-              </>
+              <div
+                key={item.id}
+                className="flex md:min-w-[180px] flex-col items-start"
+              >
+                <p className=" ml-3 md:ml-0 text-[10px] md:text-sm text-richblack-5">
+                  {item.title}
+                </p>
+              </div>
             ))}
           </div>
         </div>

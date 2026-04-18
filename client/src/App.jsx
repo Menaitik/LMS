@@ -43,12 +43,20 @@ import AdminPayments from "./components/core/Dashboard/AdminDadhboard/AdminPanel
 import AdminCourses from "./components/core/Dashboard/AdminDadhboard/AdminPanel/AdminCourses";
 import Search from "./pages/Search";
 
+import AdminLogin from "./pages/AdminLogin";
+
 function App() {
   const { user } = useSelector((state) => state.profile);
   return (
-    <div className="w-screen min-h-screen bg-richblack-900 text-richblack-25 font-inter flex flex-col">
-      <NavBar />
-      <Routes>
+    <Routes>
+      {/* ── Admin login — completely isolated, no NavBar ── */}
+      <Route path="/admin-secure-login" element={<AdminLogin />} />
+
+      {/* ── All other routes — with NavBar ── */}
+      <Route path="*" element={
+        <div className="w-screen min-h-screen bg-richblack-900 text-richblack-25 font-inter flex flex-col">
+          <NavBar />
+          <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/catalog/:catalogName" element={<Catalog />} />
         <Route path="/courses/:courseId" element={<CourseDetails />} />
@@ -150,9 +158,10 @@ function App() {
         </Route>
 
         <Route path="*" element={<ErrorPage />} />
-        {/* other routes */}
       </Routes>
-    </div>
+        </div>
+      } />
+    </Routes>
   );
 }
 

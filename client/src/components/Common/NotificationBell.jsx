@@ -26,11 +26,10 @@ export default function NotificationBell() {
   };
 
   useEffect(() => {
-    if (token) {
-      fetchNotifications();
-      const interval = setInterval(fetchNotifications, 60000); // poll every 60s
-      return () => clearInterval(interval);
-    }
+    if (!token) return;
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 60000);
+    return () => clearInterval(interval);
   }, [token]);
 
   useEffect(() => {
