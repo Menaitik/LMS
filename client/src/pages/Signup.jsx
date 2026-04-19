@@ -1,6 +1,6 @@
 import React from "react";
 import signupImg from "../assets/Images/signup.png";
-import Template from "../Components/core/Auth/Template";
+import Template from "../components/core/Auth/Template";
 import { useSelector } from "react-redux";
 import { CircleLoader } from "react-spinners";
 
