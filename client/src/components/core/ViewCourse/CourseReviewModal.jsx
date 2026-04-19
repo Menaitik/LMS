@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import ReactStars from "react-stars";
-import IconBtn from "../../common/IconBtn";
+import IconBtn from "../../Common/IconBtn";
 import { createRating } from "../../../services/operations/courseDetailsAPI";
 
 const CourseReviewModal = ({ setReviewModal }) => {
@@ -120,3 +120,5 @@ const CourseReviewModal = ({ setReviewModal }) => {
 };
 
 export default CourseReviewModal;
+
+

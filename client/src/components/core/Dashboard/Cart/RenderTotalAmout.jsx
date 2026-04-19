@@ -1,7 +1,7 @@
  
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import IconBtn from "../../../common/IconBtn";
+import IconBtn from "../../../Common/IconBtn";
 import { buyCourse } from "../../../../services/operations/studentFeaturesApi";
 import { useNavigate } from "react-router-dom";
 
@@ -43,3 +43,6 @@ const RenderTotalAmout = () => {
 };
 
 export default RenderTotalAmout;
+
+
+

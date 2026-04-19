@@ -6,7 +6,7 @@ import { fetchCourseDetails } from "../services/operations/courseDetailsAPI";
 import GetAvgRating from "../utils/avgRating";
 import { CircleLoader } from "react-spinners";
 import ErrorPage from "./ErrorPage";
-import ConfirmationModal from "../components/common/ConfirmationModal";
+import ConfirmationModal from "../components/Common/ConfirmationModal";
 import RatingStars from "../components/Common/RatingStar";
 import { formatDate } from "../utils/formatDate";
 import { RiGlobalLine } from "react-icons/ri";
@@ -263,3 +263,4 @@ const CourseDetails = () => {
 };
 
 export default CourseDetails;
+

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchInstructorCourses } from '../../../services/operations/courseDetailsAPI';
-import IconBtn from '../../common/IconBtn';
+import IconBtn from '../../Common/IconBtn';
 import CourseTable from './InstructorCourses/CourseTable';
 
 const MyCourses = () => {
@@ -34,3 +34,5 @@ const MyCourses = () => {
 };
 
 export default MyCourses;
+
+

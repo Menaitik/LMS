@@ -6,7 +6,7 @@ import { COURSE_STATUS } from "../../../../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdEdit, MdCheckCircle, MdOutlineUnpublished } from "react-icons/md";
-import ConfirmationModal from "../../../common/ConfirmationModal";
+import ConfirmationModal from "../../../Common/ConfirmationModal";
 import {
   deleteCourse,
   fetchInstructorCourses,
@@ -139,3 +139,6 @@ const CourseTable = ({ courses, setCourses }) => {
 };
 
 export default CourseTable;
+
+
+

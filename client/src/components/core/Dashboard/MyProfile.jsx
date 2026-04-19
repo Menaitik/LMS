@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import IconBtn from "../../common/IconBtn";
+import IconBtn from "../../Common/IconBtn";
 
 const MyProfile = () => {
   const { user } = useSelector((state) => state.profile);
@@ -132,3 +132,5 @@ const MyProfile = () => {
 };
 
 export default MyProfile;
+
+

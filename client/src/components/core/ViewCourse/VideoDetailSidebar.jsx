@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa";
-import IconBtn from "../../common/IconBtn";
+import IconBtn from "../../Common/IconBtn";
 
 const VideoDetailSidebar = ({ setReviewModal }) => {
   const [activeSection, setActiveSection] = useState("");
@@ -110,3 +110,5 @@ const VideoDetailSidebar = ({ setReviewModal }) => {
 };
 
 export default VideoDetailSidebar;
+
+

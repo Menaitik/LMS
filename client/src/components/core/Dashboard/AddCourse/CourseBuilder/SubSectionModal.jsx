@@ -10,7 +10,7 @@ import {
   updateSubSection,
 } from "../../../../../services/operations/courseDetailsAPI";
 import { setCourse } from "../../../../../slices/courseSlice";
-import IconBtn from "../../../../common/IconBtn";
+import IconBtn from "../../../../Common/IconBtn";
 import Upload from "../Upload";
 import ResourceUpload from "./ResourceUpload";
 
@@ -233,3 +233,6 @@ export default function SubSectionModal({
     </div>
   );
 }
+
+
+

@@ -12,7 +12,7 @@ import {
   deleteSubSection,
 } from "../../../../../services/operations/courseDetailsAPI"
 import { setCourse } from "../../../../../slices/courseSlice"
-import ConfirmationModal from "../../../../common/ConfirmationModal"
+import ConfirmationModal from "../../../../Common/ConfirmationModal"
 import SubSectionModal from "./SubSectionModal"
 
 export default function NestedView({ handleChangeEditSectionName }) {
@@ -186,3 +186,6 @@ export default function NestedView({ handleChangeEditSectionName }) {
     </>
   )
 }
+
+
+
