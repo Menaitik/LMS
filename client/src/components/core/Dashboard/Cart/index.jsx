@@ -38,7 +38,7 @@ export default function Cart() {
               Your cart is empty
             </p>
             <a
-              href="/courses"
+              href="/"
               className="inline-block px-6 py-3 bg-yellow-400 text-richblack-900 font-semibold rounded-lg shadow-md hover:bg-yellow-300 transition-all"
             >
               Browse Courses
